@@ -600,7 +600,7 @@ class Page
                     'Invalid options "footerTemplate" for print to pdf. Must be a string'
                 );
             }
-            $pdfOptions['footerTemplate'] = $options['headerTemplate'];
+            $pdfOptions['footerTemplate'] = $options['footerTemplate'];
         }
 
         // request pdf
