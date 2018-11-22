@@ -237,12 +237,12 @@ class Page
                 const script = document.createElement("script");
                 script.type = "text/javascript";
                 script.src = src;
-                
+
                 const promise = new Promise((res, rej) => {
                     script.onload = res;
                     script.onerror = rej;
                 });
-                
+
                 document.head.appendChild(script);
                 await promise;
             }';
@@ -252,12 +252,12 @@ class Page
                 var script = document.createElement("script");
                 script.type = "text/javascript";
                 script.text = scriptContent;
-                
+
                 let error = null;
                 script.onerror = e => {error = e};
-                
+
                 document.head.appendChild(script);
-                
+
                 if (error) {
                     throw error;
                 }
@@ -514,7 +514,7 @@ class Page
             }
             $pdfOptions['printBackground'] = $options['printBackground'];
         }
-    
+
         // option displayHeaderFooter
         if (array_key_exists('displayHeaderFooter', $options)) {
             // printBackground requires type to be boolean
@@ -525,7 +525,7 @@ class Page
             }
             $pdfOptions['displayHeaderFooter'] = $options['displayHeaderFooter'];
         }
-    
+
         // option marginTop
         if (array_key_exists('marginTop', $options)) {
             // marginTop requires type to be float
@@ -536,7 +536,7 @@ class Page
             }
             $pdfOptions['marginTop'] = $options['marginTop'];
         }
-    
+
         // option marginBottom
         if (array_key_exists('marginBottom', $options)) {
             // marginBottom requires type to be float
@@ -547,7 +547,7 @@ class Page
             }
             $pdfOptions['marginBottom'] = $options['marginBottom'];
         }
-    
+
         // option marginLeft
         if (array_key_exists('marginLeft', $options)) {
             // marginBottom requires type to be float
@@ -558,7 +558,7 @@ class Page
             }
             $pdfOptions['marginLeft'] = $options['marginLeft'];
         }
-    
+
         // option marginLeft
         if (array_key_exists('marginRight', $options)) {
             // marginBottom requires type to be float
@@ -569,7 +569,7 @@ class Page
             }
             $pdfOptions['marginRight'] = $options['marginRight'];
         }
-    
+
         // option preferCSSPageSize
         if (array_key_exists('preferCSSPageSize', $options)) {
             // printBackground requires type to be boolean
@@ -580,7 +580,29 @@ class Page
             }
             $pdfOptions['preferCSSPageSize'] = $options['preferCSSPageSize'];
         }
-        
+
+        // option headerTemplate
+        if (array_key_exists('headerTemplate', $options)) {
+            // printBackground requires type to be boolean
+            if (!is_string($options['headerTemplate'])) {
+                throw new \InvalidArgumentException(
+                    'Invalid options "headerTemplate" for print to pdf. Must be a string'
+                );
+            }
+            $pdfOptions['headerTemplate'] = $options['headerTemplate'];
+        }
+
+        // option footerTemplate
+        if (array_key_exists('footerTemplate', $options)) {
+            // printBackground requires type to be boolean
+            if (!is_string($options['footerTemplate'])) {
+                throw new \InvalidArgumentException(
+                    'Invalid options "footerTemplate" for print to pdf. Must be a string'
+                );
+            }
+            $pdfOptions['footerTemplate'] = $options['headerTemplate'];
+        }
+
         // request pdf
         $responseReader = $this->getSession()
             ->sendMessage(new Message('Page.printToPDF', $pdfOptions));
